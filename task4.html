@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+        <ul>
+            <li><a href="task1.html">Завдання 1</a></li>
+            <li><a href="task2.html">Завдання 2</a></li>
+            <li><a href="task3.html">Завдання 3</a></li>
+            <li><a href="task4.html" class="task">Завдання 4</a></li>
+            <li><a href="task5.html">Завдання 5</a></li>
+        </ul>
+    </header>
+    <main>
+        <h1>Обробка масиву</h1>
+    <label for="arraySize">Введіть кількість елементів масиву:</label>
+    <input type="number" id="arraySize" min="1">
+    <button onclick="processArray()">Обробити масив</button>
+
+    <h3>Вхідний масив:</h3>
+    <pre id="inputArray"></pre>
+
+    <h3>Максимальні та мінімальні значення:</h3>
+    <p id="results"></p>
+
+    <h3>Вихідний масив (впорядкований за спаданням):</h3>
+    <pre id="sortedArray"></pre>
+
+    <script>
+        function generateArray(size) {
+            const array = [];
+            for (let i = 0; i < size; i++) {
+                array.push(Math.floor(Math.random() * 100)); 
+            }
+            return array;
+        }
+
+        function findMinMax(array) {
+            let evenMax = -Infinity, evenMin = Infinity;
+            let oddMax = -Infinity, oddMin = Infinity;
+
+            for (let i = 0; i < array.length; i++) {
+                if (i % 2 === 0) { 
+                    oddMax = Math.max(oddMax, array[i]);
+                    oddMin = Math.min(oddMin, array[i]);
+                } else {
+                    evenMax = Math.max(evenMax, array[i]);
+                    evenMin = Math.min(evenMin, array[i]);
+                }
+            }
+
+            if(evenMax == -Infinity || evenMin == Infinity){
+                evenMin = oddMin;
+                evenMax = oddMax;
+            }
+
+            return {
+                evenMax, evenMin, oddMax, oddMin
+            };
+        }
+
+        function selectionSortDescending(array) {
+            const sortedArray = array.slice(); 
+
+            for (let i = 0; i < sortedArray.length - 1; i++) {
+                let maxIndex = i;
+                for (let j = i + 1; j < sortedArray.length; j++) {
+                    if (sortedArray[j] > sortedArray[maxIndex]) {
+                        maxIndex = j;
+                    }
+                }
+                [sortedArray[i], sortedArray[maxIndex]] = [sortedArray[maxIndex], sortedArray[i]];
+            }
+
+            return sortedArray;
+        }
+
+        function processArray() {
+            const size = document.getElementById('arraySize').value;
+            if (size <= 0) {
+                alert('Введіть коректне число елементів');
+                return;
+            }
+
+            const array = generateArray(size);
+            console.log("Вхідний масив:", array);
+            document.getElementById('inputArray').textContent = array.join(', ');
+
+            const minMaxResults = findMinMax(array);
+            console.log("Результати мін/макс значень:", minMaxResults);
+            document.getElementById('results').innerHTML = `
+                Максимальне значення (парні індекси): ${minMaxResults.evenMax} <br>
+                Мінімальне значення (парні індекси): ${minMaxResults.evenMin} <br>
+                Максимальне значення (непарні індекси): ${minMaxResults.oddMax} <br>
+                Мінімальне значення (непарні індекси): ${minMaxResults.oddMin}
+            `;
+
+            const sortedArray = selectionSortDescending(array);
+            console.log("Впорядкований масив:", sortedArray); 
+            document.getElementById('sortedArray').textContent = sortedArray.join(', ');
+        }
+    </script>
+    </main>
+    <footer></footer>
+</body>
+</html>
