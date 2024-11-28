@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+        <ul>
+            <li><a href="task1.html">Завдання 1</a></li>
+            <li><a href="task3.html">Завдання 3</a></li>
+            <li><a href="task5.html">Завдання 5</a></li>
+            <li><a href="task7.html">Завдання 7</a></li>
+            <li><a href="task9.html">Завдання 9</a></li>
+            <li><a href="task10.html" class="task">Завдання 10</a></li>
+        </ul>
+    </header>
+    <main>
+        <h1>Перевірка правильності дужок у JS коді</h1>
+
+        <label for="codeInput">Введіть код JavaScript:</label>
+        <textarea id="codeInput" rows="10" cols="50" placeholder="Введіть код з дужками" required></textarea>
+        <br>
+        <button onclick="checkBracketsInCode()">Перевірити код</button>
+        <div id="result"></div>
+
+        <script>
+            function checkBrackets(str) {
+                const stack = [];
+                const openingBrackets = '({[';
+                const closingBrackets = ')}]';
+
+                for (let i = 0; i < str.length; i++) {
+                    const char = str[i];
+
+                    if (openingBrackets.includes(char)) {
+                        stack.push(char);
+                    }
+
+                    if (closingBrackets.includes(char)) {
+                        const lastOpeningBracket = stack.pop();
+
+                        if (openingBrackets.indexOf(lastOpeningBracket) !== closingBrackets.indexOf(char)) {
+                            return false;
+                        }
+                    }
+                }
+
+                return stack.length === 0;
+            }
+
+            function checkBracketsInCode() {
+                const codeInput = document.getElementById('codeInput').value;
+
+                if (checkBrackets(codeInput)) {
+                    document.getElementById('result').innerText = 'Правильне закриття дужок!';
+                } else {
+                    document.getElementById('result').innerText = 'Неправильне закриття дужок!';
+                }
+            }
+        </script>
+    </main>
+    <footer></footer>
+</body>
+</html>

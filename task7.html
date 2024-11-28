@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+        <ul>
+            <li><a href="task1.html">Завдання 1</a></li>
+            <li><a href="task3.html">Завдання 3</a></li>
+            <li><a href="task5.html">Завдання 5</a></li>
+            <li><a href="task7.html" class="task">Завдання 7</a></li>
+            <li><a href="task9.html">Завдання 9</a></li>
+            <li><a href="task10.html">Завдання 10</a></li>
+        </ul>
+    </header>
+    <main>
+        <h1>Клас Client з геттерами та сеттерами</h1>
+        <form id="clientForm">
+            <label for="login">Логін:</label>
+            <input type="text" id="login" placeholder="Введіть логін" required>
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Введіть email" required>
+            <br>
+            <button type="button" onclick="createClient()">Створити клієнта</button>
+        </form>
+        <div id="result"></div>
+
+        <script>
+            class Client {
+                #login;
+                #email;
+
+                constructor(login, email) {
+                    this.#login = login;
+                    this.#email = email;
+                }
+
+                get login() {
+                    return this.#login;
+                }
+
+                set login(newLogin) {
+                    if (typeof newLogin === 'string' && newLogin.trim() !== '') {
+                        this.#login = newLogin;
+                    } else {
+                        console.error('Невірний формат логіну!');
+                    }
+                }
+
+                get email() {
+                    return this.#email;
+                }
+
+                set email(newEmail) {
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (emailPattern.test(newEmail)) {
+                        this.#email = newEmail;
+                    } else {
+                        console.error('Невірний формат email!');
+                    }
+                }
+            }
+
+            function createClient() {
+                const loginInput = document.getElementById('login').value;
+                const emailInput = document.getElementById('email').value;
+
+                if (!loginInput || !emailInput) {
+                    document.getElementById('result').innerText = 'Будь ласка, заповніть всі поля!';
+                    return;
+                }
+
+                const client = new Client(loginInput, emailInput);
+
+                document.getElementById('result').innerHTML = `
+                    <p>Клієнт створений!</p>
+                    <p>Логін: ${client.login}</p>
+                    <p>Email: ${client.email}</p>
+                `;
+
+                console.log('Новий клієнт:', {
+                    login: client.login,
+                    email: client.email
+                });
+            }
+        </script>
+    </main>
+    <footer></footer>
+</body>
+</html>

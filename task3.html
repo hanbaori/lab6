@@ -11,49 +11,50 @@
     <header>
         <ul>
             <li><a href="task1.html">Завдання 1</a></li>
-            <li><a href="task2.html">Завдання 2</a></li>
             <li><a href="task3.html" class="task">Завдання 3</a></li>
-            <li><a href="task4.html">Завдання 4</a></li>
             <li><a href="task5.html">Завдання 5</a></li>
+            <li><a href="task7.html">Завдання 7</a></li>
+            <li><a href="task9.html">Завдання 9</a></li>
+            <li><a href="task10.html">Завдання 10</a></li>
         </ul>
     </header>
     <main>
-        <h1>Відсортовка масиву</h1>
-            <label for="numbers">Введіть масив чисел (через кому):</label>
-            <input type="text" id="numbers" placeholder="Наприклад: 1, 5, 10, 15" required>
-            <br>
-            <label for="value">Введіть значення для порівняння:</label>
-            <input type="number" id="value" placeholder="Число для порівняння" required>
-    
-            <button onclick="filterNumbers()">Фільтрувати</button>
-    
-            <div id="result"></div>
+        <h1>Обробка медикаментів</h1>
+        <p>Дані про медикаменти вже задано в коді. Натисніть кнопку, щоб отримати відфільтрований та відсортований список.</p>
+        <button onclick="processMedicines()">Обробити медикаменти</button>
+        <div id="result"></div>
 
         <script>
-            function filterArray(numbers, value) {
-                const filteredArray = [];
-                for (let i = 0; i < numbers.length; i++) {
-                    if (numbers[i] > value) {
-                        filteredArray.push(numbers[i]);
-                    }
+            const medicines = {
+                Агалгін: new Date("2022-05-01"),
+                Ношпа: new Date("2025-07-02"),
+                Альфахолін: new Date("2024-12-21"),
+                Аспірин: new Date("2022-08-15"),
+                Аспаркам: new Date("2024-04-18"),
+            };
+
+            const processMedicines = () => {
+                const currentDate = new Date();
+
+                const medicineNames = Object.keys(medicines);
+
+                const validMedicines = medicineNames.filter(
+                    name => medicines[name] > currentDate
+                );
+
+                const sortedMedicines = validMedicines.sort(
+                    (a, b) => medicines[a] - medicines[b]
+                );
+
+                const resultElement = document.getElementById('result');
+                if (sortedMedicines.length === 0) {
+                    resultElement.innerText = "Немає медикаментів із дійсним строком зберігання.";
+                } else {
+                    resultElement.innerText = `Відфільтровані медикаменти: ${sortedMedicines.join(', ')}`;
                 }
-                return filteredArray;
-            }
 
-            function filterNumbers() {
-                const numbersInput = document.getElementById('numbers').value;
-                const value = parseInt(document.getElementById('value').value);
-
-                if (!numbersInput || isNaN(value)) {
-                    document.getElementById('result').innerText = 'Будь ласка, введіть коректні значення!';
-                    return;
-                }
-
-                const numbersArray = numbersInput.split(',').map(num => parseInt(num.trim()));
-                const filteredNumbers = filterArray(numbersArray, value);
-                document.getElementById('result').innerText = `Результат фільтрації: ${filteredNumbers.join(', ')}`;
-                console.log(`Результат фільтрації: ${filteredNumbers.join(', ')}`);
-            }
+                console.log("Відфільтровані та відсортовані медикаменти:", sortedMedicines);
+            };
         </script>
     </main>
     <footer></footer>

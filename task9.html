@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+        <ul>
+            <li><a href="task1.html">Завдання 1</a></li>
+            <li><a href="task3.html">Завдання 3</a></li>
+            <li><a href="task5.html">Завдання 5</a></li>
+            <li><a href="task7.html">Завдання 7</a></li>
+            <li><a href="task9.html" class="task">Завдання 9</a></li>
+            <li><a href="task10.html">Завдання 10</a></li>
+        </ul>
+    </header>
+    <main>
+        <h1>Підрахунок кількості тегів</h1>
+        <div id="result"></div>
+
+        <script>
+            const tweets = [
+                { id: "000", likes: 5, tags: ["js", "nodejs"] },
+                { id: "001", likes: 2, tags: ["html", "css"] },
+                { id: "002", likes: 17, tags: ["html", "js", "nodejs"] },
+                { id: "003", likes: 8, tags: ["css", "react"] },
+                { id: "004", likes: 0, tags: ["js", "nodejs", "react"] }
+            ];
+
+            function countTags(tweets) {
+                const tagCounts = {};
+
+                tweets.forEach(tweet => {
+                    tweet.tags.forEach(tag => {
+                        tagCounts[tag] = tagCounts[tag] ? tagCounts[tag] + 1 : 1;
+                    });
+                });
+
+                return tagCounts;
+            }
+
+            function formatTagCount(tagCount) {
+                let result = '';
+                for (let tag in tagCount) {
+                    result += `${tag}: ${tagCount[tag]}\n`;
+                }
+                return result;
+            }
+
+            const tagCountResult = countTags(tweets);
+            document.getElementById('result').innerHTML = `
+                <p>Кількість тегів: </p>
+                <pre>${formatTagCount(tagCountResult)}</pre>
+            `;
+
+            console.log(tagCountResult);
+        </script>
+    </main>
+    <footer></footer>
+</body>
+</html>
